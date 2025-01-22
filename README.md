@@ -27,7 +27,9 @@ Follow these steps to set up the project locally:
 4. **Start the application:**
    ```bash
    npx expo start
+   ```
    or
+   ```
    npm run ios/android
    ```
 
