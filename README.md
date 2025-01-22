@@ -11,12 +11,12 @@ Follow these steps to set up the project locally:
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/AmitStredz/quadB-native-project.git
    ```
 
 2. **Navigate to the project directory:**
    ```bash
-   cd <project-directory>
+   cd quadB-native-project
    ```
 
 3. **Install dependencies:**
@@ -27,6 +27,8 @@ Follow these steps to set up the project locally:
 4. **Start the application:**
    ```bash
    npx expo start
+   or
+   npm run ios/android
    ```
 
 ## 🚀 Running the App
@@ -44,8 +46,8 @@ After starting the application, you can:
 ![Home Screen](./assets/screenshots/img1.jpeg)
 
 ### ⚙️ Search Page
-![Settings Page](./assetsscreenshots/img3.jpeg.png)
+![Settings Page](./assetsscreenshots/img3.jpeg)
 
 ### ✨ Details Page
-![Features Page](screenshots/img4.jpeg.png)
+![Features Page](./assets/screenshots/img4.jpeg.png)
 
