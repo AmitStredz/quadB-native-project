@@ -6,6 +6,8 @@ import {
   View,
   Button,
   TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
 
 import { HelloWave } from "@/components/HelloWave";
@@ -17,6 +19,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { useRouter } from "expo-router";
 import { BottomSheetModal } from "@/components/BottomSheet";
+import { Portal, Text } from "react-native-paper";
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -54,86 +57,81 @@ export default function HomeScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+      headerBackgroundColor={{ light: "#A1CEDC", dark: "#C11119" }}
       headerImage={
         <ThemedView style={styles.headerContainer}>
           {/* <Image
           source={require("@/assets/images/partial-react-logo.png")}
           style={styles.reactLogo}
         /> */}
-          <ThemedText style={styles.bannerText}>Movies</ThemedText>
+          <ThemedText style={styles.bannerText}>Movies List</ThemedText>
         </ThemedView>
       }
     >
-      <View style={{flex: 1}}>
-
-      <Button
-        onPress={() => setIsModalOpen(true)}
-        title="Open Bottom Sheet"
-      ></Button>
-
-      {/* {isLoading ? (
-        <ThemedView>
-          <ThemedText>Loading...</ThemedText>
-        </ThemedView>
-      ) : (
-        <ThemedView>
+      <ScrollView style={{ flex: 1 }}>
+        {isLoading ? (
           <ThemedView>
-            <SearchBar
-              placeholder="Search"
-              onFocus={() => router.push("/search")}
+            <ThemedText>Loading...</ThemedText>
+          </ThemedView>
+        ) : (
+          <ThemedView>
+            <ThemedView>
+              <SearchBar
+                placeholder="Search"
+                onFocus={() => router.push("/search")}
+              />
+            </ThemedView>
+            <FlatList
+              style={styles.container}
+              data={data}
+              numColumns={2}
+              // nestedScrollEnabled={false}
+              scrollEnabled={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={{ flex: 1 }}
+                  onPress={() => {
+                    setIsModalOpen(true);
+                    setSelectedMovieData(item);
+                  }}
+                >
+                  <ThemedView style={styles.card}>
+                    {item?.show?.image?.original ? (
+                      <Image
+                        source={{ uri: item.show.image.original }}
+                        style={styles.cardImage}
+                      />
+                    ) : (
+                      <ThemedView style={styles.placeholder}>
+                        <ThemedText>No Image</ThemedText>
+                      </ThemedView>
+                    )}
+                    <ThemedView style={styles.cardContent}>
+                      <ThemedText style={styles.cardTitle}>
+                        {item?.show?.name}
+                      </ThemedText>
+                      <ThemedText style={styles.cardSummary} numberOfLines={2}>
+                        {item?.show?.summary?.replace(/<[^>]+>/g, "") ||
+                          "No summary available."}
+                      </ThemedText>
+                    </ThemedView>
+                  </ThemedView>
+                </TouchableOpacity>
+              )}
+              ListEmptyComponent={
+                <ThemedText style={styles.noResultsText}>
+                  No Movies Found...
+                </ThemedText>
+              }
             />
           </ThemedView>
-          <FlatList
-            style={styles.container}
-            data={data}
-            numColumns={2}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => {
-                  setIsModalOpen(true);
-                  setSelectedMovieData(item);
-                }}
-              >
-                <ThemedView style={styles.card}>
-                  {item?.show?.image?.original ? (
-                    <Image
-                      source={{ uri: item.show.image.original }}
-                      style={styles.cardImage}
-                    />
-                  ) : (
-                    <ThemedView style={styles.placeholder}>
-                      <ThemedText>No Image</ThemedText>
-                    </ThemedView>
-                  )}
-                  <ThemedView style={styles.cardContent}>
-                    <ThemedText style={styles.cardTitle}>
-                      {item?.show?.name}
-                    </ThemedText>
-                    <ThemedText style={styles.cardSummary} numberOfLines={2}>
-                      {item?.show?.summary?.replace(/<[^>]+>/g, "") ||
-                        "No summary available."}
-                    </ThemedText>
-                  </ThemedView>
-                </ThemedView>
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={
-              <ThemedText style={styles.noResultsText}>
-                No Movies Found...
-              </ThemedText>
-            }
-          />
-        </ThemedView>
-      )} */}
+        )}
 
-      {isModalOpen && (
-        <BottomSheetModal onClose={() => setIsModalOpen(false)} />
-      )}
-      </View>
-
+        {isModalOpen && (
+          <BottomSheetModal onClose={() => setIsModalOpen(false)} selectedMovie={selectedMovieData}/>
+        )}
+      </ScrollView>
     </ParallaxScrollView>
   );
 }
@@ -148,6 +146,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     position: "relative",
+    height: 10,
   },
   reactLogo: {
     // width: 150,

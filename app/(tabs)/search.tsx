@@ -2,11 +2,8 @@ import {
   StyleSheet,
   Image,
   FlatList,
-  Modal,
   TouchableOpacity,
   Dimensions,
-  View,
-  Text,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "@rneui/base";
@@ -14,13 +11,6 @@ import { useEffect, useState } from "react";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { Button } from "react-native";
 import { BottomSheetModal } from "@/components/BottomSheet";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -57,49 +47,6 @@ export default function TabTwoScreen() {
     }
   }, [searchValue]);
 
-  const translateY = useSharedValue(0);
-  const context = useSharedValue({ y: 0 });
-
-  const gesture = Gesture.Pan()
-    .onStart((e) => {
-      context.value = { y: translateY.value };
-    })
-    .onUpdate((e) => {
-      translateY.value = e.translationY + context.value.y;
-      translateY.value = Math.max(translateY.value, -MAX_TRANSLATE_Y);
-    })
-    .onEnd((e) => {
-      if (translateY.value > -MIN_TRANSLATE_Y) {
-        translateY.value = withSpring(SCREEN_HEIGHT);
-      }
-      if (translateY.value < -MIN_TRANSLATE_Y) {
-        translateY.value = withSpring(-MAX_TRANSLATE_Y);
-      }
-    });
-
-  /**
-   * Animated style for the bottom sheet
-   */
-  const reanimatedBottomStyle = useAnimatedStyle((e) => {
-    return {
-      transform: [{ translateY: translateY.value }],
-    };
-  });
-
-  /**
-   * Scrolls to a specific destination
-   * @param {number} destination - The destination to scroll to
-   */
-  const scrollTo = (destination) => {
-    "worklet";
-    translateY.value = withSpring(destination, { damping: 50 });
-  };
-
-  useEffect(() => {
-    // Initial scroll to show the bottom sheet partially
-    scrollTo(-SCREEN_HEIGHT / 3);
-  }, []);
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#121212" }}>
       <ThemedView style={{ padding: 10 }}>
@@ -123,6 +70,7 @@ export default function TabTwoScreen() {
             style={styles.container}
             data={data}
             numColumns={2}
+            nestedScrollEnabled={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
@@ -170,12 +118,9 @@ export default function TabTwoScreen() {
         )}
       </ThemedView>
 
-      {/* <Button
-        onPress={() => setIsModalOpen(true)}
-        title="Open Bottom Sheet"
-      ></Button> */}
-
-      {isModalOpen && <BottomSheetModal onClose={()=>setIsModalOpen(false)}/>}
+      {isModalOpen && (
+        <BottomSheetModal onClose={() => setIsModalOpen(false)} selectedMovie={selectedMovieData}/>
+      )}
     </SafeAreaView>
   );
 }
