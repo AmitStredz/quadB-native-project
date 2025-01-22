@@ -4,6 +4,17 @@
 
 An app where users can come and see all the details of a movie by just searching them.
 
+## 📸 Screenshots
+
+### 🏠 Home Screen
+![Home Screen](./assets/screenshots/img1.jpeg)
+
+### ⚙️ Search Page
+![Settings Page](./assets/screenshots/img3.jpeg)
+
+### ✨ Details Page
+![Features Page](./assets/screenshots/img4.jpeg)
+
 
 ## 🛠️ Project Setup
 
@@ -42,14 +53,4 @@ After starting the application, you can:
 - Use an [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/).
 - Open the app in [Expo Go](https://expo.dev/go).
 
-## 📸 Screenshots
-
-### 🏠 Home Screen
-![Home Screen](./assets/screenshots/img1.jpeg)
-
-### ⚙️ Search Page
-![Settings Page](./assets/screenshots/img3.jpeg)
-
-### ✨ Details Page
-![Features Page](./assets/screenshots/img4.jpeg)
 
