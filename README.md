@@ -48,8 +48,8 @@ After starting the application, you can:
 ![Home Screen](./assets/screenshots/img1.jpeg)
 
 ### ⚙️ Search Page
-![Settings Page](./assetsscreenshots/img3.jpeg)
+![Settings Page](./assets/screenshots/img3.jpeg)
 
 ### ✨ Details Page
-![Features Page](./assets/screenshots/img4.jpeg.png)
+![Features Page](./assets/screenshots/img4.jpeg)
 
